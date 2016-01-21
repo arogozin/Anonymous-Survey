@@ -7,11 +7,12 @@ var router = new VueRouter({
     history: true,
 });
 
+import Login from './views/login.vue';
+Vue.component('login', Login)
+
 router.map({
     '/': {
-        component: {
-            template: 'homepage',
-        }
+        component: Login,
     },
     'about': {
         component: {
@@ -20,5 +21,15 @@ router.map({
     }
 });
 
-var App = Vue.extend({});
+
+var App = Vue.extend({
+    data: function() {
+        return {
+            links: [
+                { path: '/', text: 'Dashboard' },
+                { path: '/about', text: 'About' },
+            ],
+        };
+    },
+});
 router.start(App, '#app');
