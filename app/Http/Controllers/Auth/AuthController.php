@@ -8,6 +8,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+use Auth;
+use Closure;
+use Socialite;
+use Illuminate\Http\Request;
+
+
 class AuthController extends Controller
 {
     /*
@@ -68,5 +74,53 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+    
+    public function redirectToProvider()
+    {
+        return Socialite::driver('google')->with(['hd' => 'nyu.edu'])->redirect();
+    }
+    
+    public function handleProviderCallback(Request $request)
+    {
+        $user = Socialite::driver('google')->user();
+        
+        $authUser = $this->findOrCreateUser($user);
+        Auth::login($authUser, true);
+        
+        //return response()->json($authUser);
+        return redirect('/admin');
+    }
+    
+    private function findOrCreateUser($user)
+    {
+        if ($authUser = User::where('id', $user->id)->first()) {
+            $authUser->token = $user->token;
+            $authUser->save();
+            
+            return $authUser;
+        }
+        
+        return User::create([
+            'token' => $user->token,
+            'id' => $user->id,
+            'nickname' => $user->nickname,
+            'name' => $user->name,
+            'email' => $user->email,
+            'avatar' => $user->avatar,
+            'user' => $user->user,
+        ]);
+    }
+    
+    public function logout()
+    {
+        Auth::logout();
+        
+        return redirect('/');
+    }
+    
+    public function login()
+    {
+        return view('admin.login');
     }
 }

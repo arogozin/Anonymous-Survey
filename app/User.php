@@ -2,17 +2,21 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Moloquent;
 
-class User extends Authenticatable
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+
+class User extends Moloquent implements AuthenticatableContract
 {
+    use Authenticatable;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'token', 'id', 'nickname', 'name', 'email', 'avatar', 'user', 'role'
     ];
 
     /**
@@ -21,6 +25,5 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
     ];
 }

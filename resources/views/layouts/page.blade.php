@@ -1,41 +1,76 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta charset="utf-8">
-<title>{{ $title or 'Anonymous Survey' }}</title>
-<meta name="description" content="Anonymous Survey Platform">
-<meta name="author" content="Aleksandr Rogozin">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!--[if IE 9]>         <html class="ie9 no-focus"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-focus"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>{{ $title or 'Survey' }}</title>
+        <meta id="token" name="token" value="{{ csrf_token() }}">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+        <!-- Stylesheets -->
+        <!-- Web fonts -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-<!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-</head>
-<body>
-    <div id="app">
-        <nav class="navbar-inverse m-b-lg-20 margin-bottom-25">
-            <div class="container">
-                <div class="nav navbar-nav">
-                    <li v-for="link in links">
-                        <a class="nav-item nav-link" v-link="{ path: link.path }">@{{ link.text }}</a>
-                    </li>
+        <!-- Bootstrap and OneUI CSS framework -->
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/oneui.css') }}">
+
+        <link rel="stylesheet" id="css-theme" href="{{ asset('assets/css/themes/amethyst.min.css') }}">
+        
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.css') }}">
+        
+        <!-- END Stylesheets -->
+    </head>
+    <body>
+
+    <div id="page-container" class="">
+        <div class="container">
+            <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
+                <div class="col-sm-3 text-center">
+                    <a href="http://library.nyu.edu"><img src="{{ asset('assets/img/libraries_short_white.png') }}" style="display: inline-block; height: 30px;" /></a>
+                </div>
+                <div class="col-sm-5 push-20-t">
+                
+                </div>
+                <div class="col-sm-4 text-center">
+                    <a href="http://library.poly.edu"><img src="{{ asset('assets/img/libraries_dibner_white.png') }}" style="display: inline-block; height: 15px; padding-top: 5px;" /></a>
                 </div>
             </div>
-        </nav>
-        
-        <router-view></router-view>
-        
-        <pre>@{{ $data | json }}</pre>
+        </div>
+    
+        <div id="app">
+        @yield('content')
+        </div>
     </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<script src="{{ asset('js/main.js') }}"></script>
-</body>
+    
+    <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+    <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.scrollLock.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.appear.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.countTo.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.placeholder.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/js.cookie.min.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.js"></script>
+    <script src="{{ asset('assets/js/survey.js') }}"></script>
+    
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+
+    <!-- Page JS Code -->
+    <script src="{{ asset('assets/js/pages/base_tables_datatables.js') }}"></script>
+
+    <!-- Page JS Code -->
+    <script>
+        jQuery(function () {
+            // Init page helpers (Appear + CountTo plugins)
+            App.initHelpers(['appear', 'appear-countTo']);
+        });
+    </script>
+    </body>
 </html>
